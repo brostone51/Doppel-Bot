@@ -5,7 +5,9 @@ import routing from './main.routes';
 export class MainController {
 
   awesomeThings = [];
+  markovObjects= [{handle:'@jordan', tweets:["Hello,","world!"]}];
   newThing = '';
+  counter = 10;
 
   /*@ngInject*/
   constructor($http) {
@@ -19,8 +21,22 @@ export class MainController {
       });
   }
 
+  addMarkovObject() {
+    this.markovObjects.push({
+      handle: '',
+      tweets: []
+    })
+  }
+
+  generateTweet(markov) {
+    //TODO: ADD LOGIC TO CALL ENDPOINT AND GET TWEEt
+    markov.tweets.push(this.counter + ' ');
+    this.counter = this.counter + 1;
+  }
+
   addThing() {
     if(this.newThing) {
+      //please
       this.$http.post('/api/things', {
         name: this.newThing
       });
