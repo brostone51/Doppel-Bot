@@ -13,7 +13,10 @@
 import jsonpatch from 'fast-json-patch';
 import UserTweet from './user-tweet.model';
 import twitterAPI from 'node-twitter-api';
+<<<<<<< HEAD
 import localconfig from '../../config/local.env.js';
+=======
+>>>>>>> 7967d3806e18eb4de7b6620d77c6ab0edc90639b
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -32,7 +35,6 @@ function patchUpdates(patches) {
     } catch(err) {
       return Promise.reject(err);
     }
-itt
     return entity.save();
   };
 }
