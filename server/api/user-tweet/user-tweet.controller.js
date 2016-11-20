@@ -14,6 +14,7 @@ import jsonpatch from 'fast-json-patch';
 import UserTweet from './user-tweet.model';
 import twitterAPI from 'node-twitter-api';
 import localconfig from '../../config/local.env.js';
+import Promise from 'bluebird';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -90,24 +91,32 @@ export function create(req, res) {
   });
 
   var sname = req.body._id;
+ // var sname = 'realdonaldtrump'; //For when using postman, not taking input correctly.
 
   var options = { screen_name: sname, count: 200};
 
-  var user_tweets = [];
+  var userTweets = [];
 
-  twitter.getTimeline('user_timeline', options, localconfig.ACCESS_TOKEN,localconfig.ACCESS_TOKEN_SECRET,function(err, data, response) {
-    for (var i = 0; i < data.length; i++) {
-      //console.log(data[i].text);
-      user_tweets.push(data[i].text);
+  //Convert our nodeback API into a promise API 
+  Promise.promisifyAll(twitter);
+
+  //Now we can use it as a promise API! Appends Async to the original function name
+  twitter.getTimelineAsync('user_timeline', options, localconfig.ACCESS_TOKEN,localconfig.ACCESS_TOKEN_SECRET).then(function(tweets) {
+    //Parse api response and get the author, id of tweets, and messages. Then insert into db
+    for (var i = 0; i < tweets.length; i++) {
+      userTweets.push({'tweet_id': tweets[i].id, 'status': tweets[i].text, 'created_at': new Date(tweets[i].created_at)});
     }
 
-    return UserTweet.create({'_id': sname, 'tweets': user_tweets})
-    .then(respondWithResult(res, 201))
+    // console.log(userTweets);
+
+    //Create object in database    
+   return UserTweet.create({'_id': sname, 'tweets': userTweets})
+    .then(respondWithResult(res, 200))
     .catch(handleError(res));
 
+  }).catch(function(e) {
+    console.error(e.stack); 
   });
-
-  //Parse api response and get the author, id of tweets, and messages. Then insert into db
 }
 
 // Upserts the given UserTweet in the DB at the specified ID
