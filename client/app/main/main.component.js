@@ -35,7 +35,9 @@ export class MainController {
           let data = response.data;
           console.log(response.data);
           let text = data.tweets.join('\n');
-          console.log(text);
+          text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+          text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+          text = text.replace(/\s{2,}/g," ");
           let generator = new Markov(text);
           markovObj.tweets.push(generator.generate(1));
         })
