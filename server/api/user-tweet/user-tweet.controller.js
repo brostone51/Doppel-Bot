@@ -14,7 +14,6 @@ import jsonpatch from 'fast-json-patch';
 import UserTweet from './user-tweet.model';
 import twitterAPI from 'node-twitter-api';
 
-
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -32,7 +31,6 @@ function patchUpdates(patches) {
     } catch(err) {
       return Promise.reject(err);
     }
-itt
     return entity.save();
   };
 }
