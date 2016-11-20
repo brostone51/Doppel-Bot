@@ -4,19 +4,27 @@ import Markov from 'libmarkov';
 import routing from './main.routes';
 
 export class MainController {
-  markovObjects= [{handle:'@jordan', tweets:[]}];
+  markovObjects= [];
 
   /*@ngInject*/
   constructor($http) {
     this.$http = $http;
   }
 
-  $onInit() {}
+  saveHandle(markovObj) {
+    markovObj.saved = true;
+    this.$http.post('/api/user-tweets', {
+      _id: markovObj.handle
+    }).then(response => {
+      //console.log(response); // todo: remove
+      })
+  }
 
   addMarkovObject() {
     this.markovObjects.push({
       handle: '',
-      tweets: []
+      tweets: [],
+      saved: false
     })
   }
 
@@ -25,17 +33,11 @@ export class MainController {
       this.$http.get(`/api/user-tweets/${markovObj.handle}`)
         .then(response => {
           let data = response.data;
+          console.log(response.data);
           let text = data.tweets.join('\n');
+          console.log(text);
           let generator = new Markov(text);
           markovObj.tweets.push(generator.generate(1));
-        })
-        .catch(response => {
-          this.$http.post('/api/user-tweets', {
-            _id: markovObj.handle
-          })
-            .then(response => {
-              this.generateTweet(markovObj);
-            })
         })
     } else {
       alert('Enter a twitter handle first')

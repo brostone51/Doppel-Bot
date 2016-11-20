@@ -89,9 +89,9 @@ export function create(req, res) {
     callback: 'http://localhost:3000'
   });
 
-  var sname = req.body;
+  var sname = req.body._id;
 
-  var options = { screen_name: sname, count: 3};
+  var options = { screen_name: sname, count: 200};
 
   var user_tweets = [];
 

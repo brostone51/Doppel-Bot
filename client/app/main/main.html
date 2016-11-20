@@ -20,9 +20,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6" ng-repeat="markov in $ctrl.markovObjects">
       <div class="container-fluid well tweet-well">
-        <input class="col-lg-12" type="text" ng-model="markov.handle" placeholder="@twitterHandle">
+        <input class="col-lg-12" type="text" ng-model="markov.handle" ng-hide="markov.saved" placeholder="twitter handle">
+        <span ng-show="markov.saved">{{markov.handle}}</span>
         <br>
-        <button type="button" class="col-lg-12 btn btn-default" ng-click="$ctrl.generateTweet(markov)"><span>Generate tweet!</span>
+        <button type="button" class="col-lg-12 btn btn-default" ng-hide="markov.saved" ng-click="$ctrl.saveHandle(markov)"><span>Save Handle</span>
+        </button>
+        <button type="button" class="col-lg-12 btn btn-default" ng-show="markov.saved" ng-click="$ctrl.generateTweet(markov)"><span>Generate tweet!</span>
         </button>
         <br>
         <div ng-repeat="tweet in markov.tweets">
