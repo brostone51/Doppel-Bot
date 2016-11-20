@@ -13,10 +13,7 @@
 import jsonpatch from 'fast-json-patch';
 import UserTweet from './user-tweet.model';
 import twitterAPI from 'node-twitter-api';
-<<<<<<< HEAD
 import localconfig from '../../config/local.env.js';
-=======
->>>>>>> 7967d3806e18eb4de7b6620d77c6ab0edc90639b
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -91,16 +88,12 @@ export function create(req, res) {
   var twitter = new twitterAPI({
     consumerKey: localconfig.TWITTER_ID,
     consumerSecret: localconfig.TWITTER_SECRET,
-    //accessToken: localconfig.ACCESS_TOKEN,
-    //accessTokenSecret: localconfig.ACCESS_TOKEN_SECRET,
     callback: 'http://localhost:3000'
   });
 
   var sname = 'realdonaldtrump';
 
   var options = { screen_name: sname, count: 3};
-  //var accessToken = '800023429944590337-ikZi6NZ3R4dE7elISZcpg6oT7LXnzLf';
-  //var accessTokenSecret = 'aZgnyjUR5X29g85MLRYBsEJHFMFTdPvW7ObixTqTcP9JL';
   
   var user_tweets = [];
   

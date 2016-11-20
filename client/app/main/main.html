@@ -1,43 +1,46 @@
-          <header class="hero-unit" id="banner">
-            <div class="container">
-              <p class="lead">Doppel uses Markov chains to simulate tweets from your favorite twitter personalities! Enter some twitter handles below to get started!</p>
-            </div>
-          </header>
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <p class="lead">Doppel uses Markov chains to simulate tweets from your favorite twitter personalities! Enter some
+      twitter handles below to get started!</p>
+  </div>
+</header>
 
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12">
-                <h1 class="page-header">Current Generators: </h1>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <button type="button" class="col-lg-12 btn btn-default" ng-click="$ctrl.addMarkovObject()"><span class="glyphicon glyphicon-plus">Add New</span></button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12 col-md-6 col-lg-6" ng-repeat="markov in $ctrl.markovObjects">
-                <div class="container-fluid well tweet-well">
-                  <input class="col-lg-12" type="text" ng-model="markov.handle" placeholder="@twitterHandle">
-                  <br>
-                  <button type="button" class="col-lg-12 btn btn-default" ng-click="$ctrl.generateTweet(markov)"><span>Generate tweet!</span></button>
-                  <br>
-                  <div ng-repeat="tweet in markov.tweets">
-                    <div class="col-lg-12 well well-sm">{{tweet}}</div>
-                    <br>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>                                                                                                                                                                                                                                               </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Current Generators: </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <button type="button" class="col-lg-12 btn btn-default" ng-click="$ctrl.addMarkovObject()"><span
+        class="glyphicon glyphicon-plus">Add New</span></button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6" ng-repeat="markov in $ctrl.markovObjects">
+      <div class="container-fluid well tweet-well">
+        <input class="col-lg-12" type="text" ng-model="markov.handle" placeholder="@twitterHandle">
+        <br>
+        <button type="button" class="col-lg-12 btn btn-default" ng-click="$ctrl.generateTweet(markov)"><span>Generate tweet!</span>
+        </button>
+        <br>
+        <div ng-repeat="tweet in markov.tweets">
+          <div class="col-lg-12 well well-sm">{{tweet}}</div>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>                                                                                                                                                                                                                                               </div>
 
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12">
-                <h1 class="page-header">Features:</h1>
-                <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in $ctrl.awesomeThings">
-                  <li><a href="#" uib-tooltip="{{thing.info}}">{{thing.name}}</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-lg-12">-->
+<!--<h1 class="page-header">Features:</h1>-->
+<!--<ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in $ctrl.awesomeThings">-->
+<!--<li><a href="#" uib-tooltip="{{thing.info}}">{{thing.name}}</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
