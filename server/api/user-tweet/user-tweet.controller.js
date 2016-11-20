@@ -82,33 +82,31 @@ export function show(req, res) {
 // Creates a new UserTweet in the DB
 export function create(req, res) {
   //Call twitter api with create request
-  
-  console.log(req.body);
-  
+
   var twitter = new twitterAPI({
     consumerKey: localconfig.TWITTER_ID,
     consumerSecret: localconfig.TWITTER_SECRET,
     callback: 'http://localhost:3000'
   });
 
-  var sname = 'realdonaldtrump';
+  var sname = req.body;
 
   var options = { screen_name: sname, count: 3};
-  
+
   var user_tweets = [];
-  
+
   twitter.getTimeline('user_timeline', options, localconfig.ACCESS_TOKEN,localconfig.ACCESS_TOKEN_SECRET,function(err, data, response) {
     for (var i = 0; i < data.length; i++) {
       //console.log(data[i].text);
       user_tweets.push(data[i].text);
     }
-    
+
     return UserTweet.create({'_id': sname, 'tweets': user_tweets})
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
-    
+
   });
-  
+
   //Parse api response and get the author, id of tweets, and messages. Then insert into db
 }
 
