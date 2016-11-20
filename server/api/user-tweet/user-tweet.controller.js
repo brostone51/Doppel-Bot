@@ -13,7 +13,7 @@
 import jsonpatch from 'fast-json-patch';
 import UserTweet from './user-tweet.model';
 import twitterAPI from 'node-twitter-api';
-
+import localconfig from '../../config/local.env.js';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -83,12 +83,38 @@ export function show(req, res) {
 // Creates a new UserTweet in the DB
 export function create(req, res) {
   //Call twitter api with create request
+  
+  console.log(req.body);
+  
+  var twitter = new twitterAPI({
+    consumerKey: localconfig.TWITTER_ID,
+    consumerSecret: localconfig.TWITTER_SECRET,
+    //accessToken: localconfig.ACCESS_TOKEN,
+    //accessTokenSecret: localconfig.ACCESS_TOKEN_SECRET,
+    callback: 'http://localhost:3000'
+  });
 
-  //Parse api response and get the author, id of tweets, and messages. Then insert into db
+  var sname = 'realdonaldtrump';
 
-  return UserTweet.create(req.body)
+  var options = { screen_name: sname, count: 3};
+  //var accessToken = '800023429944590337-ikZi6NZ3R4dE7elISZcpg6oT7LXnzLf';
+  //var accessTokenSecret = 'aZgnyjUR5X29g85MLRYBsEJHFMFTdPvW7ObixTqTcP9JL';
+  
+  var user_tweets = [];
+  
+  twitter.getTimeline('user_timeline', options, localconfig.ACCESS_TOKEN,localconfig.ACCESS_TOKEN_SECRET,function(err, data, response) {
+    for (var i = 0; i < data.length; i++) {
+      //console.log(data[i].text);
+      user_tweets.push(data[i].text);
+    }
+    
+    return UserTweet.create({'_id': sname, 'tweets': user_tweets})
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
+    
+  });
+  
+  //Parse api response and get the author, id of tweets, and messages. Then insert into db
 }
 
 // Upserts the given UserTweet in the DB at the specified ID

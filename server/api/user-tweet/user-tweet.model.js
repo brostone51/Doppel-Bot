@@ -5,11 +5,8 @@ mongoose.Promise = require('bluebird');
 import mongoose, {Schema} from 'mongoose';
 
 var UserTweetSchema = new Schema({
-  author: String,
-  tweets: [{
-    id: Number,
-    message: String
-  }]
+  _id: String,
+  tweets: [String]
 });
 
 /**
