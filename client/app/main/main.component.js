@@ -1,6 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
-import Markov from 'libmarkov';
+import MyMarkov from 'libmarkov';
 import routing from './main.routes';
 
 export class MainController {
@@ -24,25 +24,27 @@ export class MainController {
     this.markovObjects.push({
       handle: '',
       tweets: [],
-      saved: false
+      saved: false,
+      markoved: false
     })
   }
 
   generateTweet(markovObj) {
-    if (markovObj.handle) {
+    if (!markovObj.markoved) {
       this.$http.get(`/api/user-tweets/${markovObj.handle}`)
         .then(response => {
+          markovObj.markoved = true;
           let data = response.data;
           console.log(response.data);
           let text = data.tweets.join('\n');
           text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
           text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
           text = text.replace(/\s{2,}/g," ");
-          let generator = new Markov(text);
-          markovObj.tweets.push(generator.generate(1));
+          markovObj.generator = new MyMarkov(text);
+          markovObj.tweets.push(markovObj.generator.generate(1));
         })
     } else {
-      alert('Enter a twitter handle first')
+      markovObj.tweets.push(markovObj.generator.generate(1));
     }
   }
 }
