@@ -34,7 +34,11 @@ export class MainController {
         .then(response => {
           let data = response.data;
           console.log(response.data);
-          let text = data.tweets.join('\n');
+          let text = data.tweets.map(function(elem) {
+            return elem.status;
+          }).join('\n');
+          console.log(text);
+          //let text = data.tweets.join('\n');
           text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
           text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
           text = text.replace(/\s{2,}/g," ");
